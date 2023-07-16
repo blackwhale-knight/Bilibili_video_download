@@ -171,10 +171,13 @@ def combine_video(video_list, title):
 if __name__ == '__main__':
     # 用户输入av号或者视频链接地址
     print('*' * 30 + 'B站视频下载小助手' + '*' * 30)
-    start = input('请输入您要下载的B站av号或者视频链接地址:')
+    start = input('请输入您要下载的B站av/BV号或者视频链接地址:')
     if start.isdigit() == True:  # 如果输入的是av号
         # 获取cid的api, 传入aid即可
         start_url = 'https://api.bilibili.com/x/web-interface/view?aid=' + start
+    elif start.find('/BV') > 0:
+        # https://www.bilibili.com/video/BV19W411s72F?p=9
+        start_url = 'https://api.bilibili.com/x/web-interface/view?bvid=' + re.search(r'/BV(\S+)/*', start).group(1)    
     else:
         # https://www.bilibili.com/video/av46958874/?spm_id_from=333.334.b_63686965665f7265636f6d6d656e64.16
         start_url = 'https://api.bilibili.com/x/web-interface/view?aid=' + re.search(r'/av(\d+)/*', start).group(1)
